@@ -89,7 +89,7 @@ config = {
         storage: {
             active: 'ghost-azurestorage',
             'ghost-azurestorage': {
-                connectionString: process.env.BlogStorageConnectionString,
+                connectionString: process.env.MS_AzureStorageAccountConnectionString,
                 container: 'travel'//,
                 //cdnUrl: "YourCDNEndpointDomain",
                 // useHttps : "UseHttpsInEndpoint" //Optional: CDN protocol. Defaults to http if omitted. Set to "true", to enable.
