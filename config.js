@@ -26,42 +26,6 @@ if (!websiteUrlSSL || websiteUrlSSL === '' ||  websiteUrlSSL.length === 0) {
 }
 
 config = {
-    // ### Development **(default)**
-    development: {
-        // The url to use when providing links to the site, E.g. in RSS and email.
-        url: websiteUrl,
-
-        // Visit http://support.ghost.org/mail for instructions
-         mail: {
-             transport: 'SMTP',
-             options: {
-                 service: process.env.emailService,
-                 auth: {
-                     user: process.env.emailUsername, // mailgun username
-                     pass: process.env.emailPassword  // mailgun password
-                 }
-             }
-         },
-
-        database: {
-            client: 'sqlite3',
-            connection: {
-                filename: path.join(__dirname, '/content/data/ghost-dev.db')
-            },
-            debug: false
-        },
-        server: {
-            // Host to be passed to node's `net.Server#listen()`
-            host: '127.0.0.1',
-            // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
-            port: process.env.PORT
-        },
-        paths: {
-            contentPath: path.join(__dirname, '/content/')
-        },
-        forceAdminSSL: false
-    },
-
     // ### Production
     // When running Ghost in the wild, use the production environment
     // Configure your URL and mail settings here
@@ -93,6 +57,15 @@ config = {
             // Port to be passed to node's `net.Server#listen()`, for iisnode set this to `process.env.PORT`
             port: process.env.PORT
         },
+        // storage: {
+        //     active: 'ghost-azurestorage',
+        //     'ghost-azurestorage': {
+        //         connectionString: process.env.BlogStorageConnectionString,
+        //         container: 'travel'//,
+        //         //cdnUrl: "YourCDNEndpointDomain",
+        //         // useHttps : "UseHttpsInEndpoint" //Optional: CDN protocol. Defaults to http if omitted. Set to "true", to enable.
+        //     }
+        // },
         forceAdminSSL: true
     },
 
@@ -102,7 +75,7 @@ config = {
     // Used when developing Ghost to run tests and check the health of Ghost
     // Uses a different port number
     testing: {
-        url: 'http://127.0.0.1:2369',
+        url: websiteUrl + ':1337',
         database: {
             client: 'sqlite3',
             connection: {
@@ -111,51 +84,18 @@ config = {
         },
         server: {
             host: '127.0.0.1',
-            port: '2369'
+            port: '1337'
         },
-        logging: false
-    },
-
-    // ### Testing MySQL
-    // Used by Travis - Automated testing run through GitHub
-    'testing-mysql': {
-        url: 'http://127.0.0.1:2369',
-        database: {
-            client: 'mysql',
-            connection: {
-                host     : '127.0.0.1',
-                user     : 'root',
-                password : '',
-                database : 'ghost_testing',
-                charset  : 'utf8'
+        storage: {
+            active: 'ghost-azurestorage',
+            'ghost-azurestorage': {
+                connectionString: process.env.BlogStorageConnectionString,
+                container: 'travel'//,
+                //cdnUrl: "YourCDNEndpointDomain",
+                // useHttps : "UseHttpsInEndpoint" //Optional: CDN protocol. Defaults to http if omitted. Set to "true", to enable.
             }
         },
-        server: {
-            host: '127.0.0.1',
-            port: '2369'
-        },
-        logging: false
-    },
-
-    // ### Testing pg
-    // Used by Travis - Automated testing run through GitHub
-    'testing-pg': {
-        url: 'http://127.0.0.1:2369',
-        database: {
-            client: 'pg',
-            connection: {
-                host     : '127.0.0.1',
-                user     : 'postgres',
-                password : '',
-                database : 'ghost_testing',
-                charset  : 'utf8'
-            }
-        },
-        server: {
-            host: '127.0.0.1',
-            port: '2369'
-        },
-        logging: false
+        logging: true
     }
 };
 
